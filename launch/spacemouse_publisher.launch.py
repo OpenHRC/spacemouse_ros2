@@ -30,6 +30,7 @@ def generate_nodes(context):
                 parameters=[
                     {"operator_position_front": config["operator_position_front"]},
                     {"device_path": str(config["device_path"])},
+                    {"joy_topic_name": LaunchConfiguration("joy_topic_name")},
                 ],
             )
         )
@@ -47,6 +48,11 @@ def generate_launch_description():
                 "config_pkg",
                 default_value="spacemouse_ros2",
                 description="Name of the package containing the spacemouse configuration file",
+            ),
+            DeclareLaunchArgument(
+                "joy_topic_name",
+                default_value="joy",
+                description="Name of the joy topic to publish",
             ),
             OpaqueFunction(function=generate_nodes),
         ]

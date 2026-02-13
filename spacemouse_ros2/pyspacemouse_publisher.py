@@ -29,8 +29,11 @@ class SpaceMousePublisher(Node):
         self.declare_parameter("device_path", "")
         self._device_path = self.get_parameter("device_path").get_parameter_value().string_value
 
+        self.declare_parameter("joy_topic_name", "joy")
+        self._joy_topic_name = self.get_parameter("joy_topic_name").get_parameter_value().string_value
+
         self._joy_publisher = self.create_publisher(
-            Joy, "joy", 10
+            Joy, self._joy_topic_name, 10
         )
 
         self._timer = self.create_timer(0.01, self._timer_callback)
