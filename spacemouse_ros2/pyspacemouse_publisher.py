@@ -33,34 +33,33 @@ class SpaceMousePublisher(Node):
             Joy, "joy", 10
         )
 
+        if self._device_path == "":
+            self.device = pyspacemouse.open()
+        else:
+            self.device = pyspacemouse.open_by_path(self._device_path)
+
         self._timer = self.create_timer(0.01, self._timer_callback)
-        self._device_open_success = pyspacemouse.open(
-            dof_callback=None,
-            # button_callback_arr=[
-            #     pyspacemouse.ButtonCallback([0], self._button_callback),  # Button 1
-            #     pyspacemouse.ButtonCallback([1], self._button_callback),  # Button 2
-            # ],
-            path=self._device_path,
-        )
+
+    def __del__(self):
+        if self.device is not None:
+            self.device.close()
 
     def _timer_callback(self):
-        if not self._device_open_success:
-            return
+        if self.device is not None:
+            state = self.device.read()
 
-        state = pyspacemouse.read()
+            joy_msg = Joy()
+            joy_msg.axes = [
+                float(state.y),
+                -float(state.x),
+                float(state.z),
+                float(state.roll),
+                float(state.pitch),
+                -float(state.yaw),
+            ]
+            joy_msg.buttons = state.buttons
 
-        joy_msg = Joy()
-        joy_msg.axes = [
-            float(state.y),
-            -float(state.x),
-            float(state.z),
-            float(state.roll),
-            float(state.pitch),
-            -float(state.yaw),
-        ]
-        joy_msg.buttons = state.buttons
-
-        self._joy_publisher.publish(joy_msg)
+            self._joy_publisher.publish(joy_msg)
 
 
 def main(args=None):
