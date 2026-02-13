@@ -8,4 +8,4 @@ spacemouse_ros2 is forked from [spacemouse_publihser](https://github.com/frankar
 ```bash
 $ pip install pyspacemouse==1.1.5
 ```
-Newer versions of PtSpaceMouse are currently unsupported.
+Newer versions of PySpaceMouse are currently unsupported.~~~~

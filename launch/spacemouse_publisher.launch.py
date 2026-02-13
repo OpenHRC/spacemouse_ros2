@@ -16,9 +16,8 @@ def load_yaml(file_path):
 
 def generate_nodes(context):
     config_file_name = LaunchConfiguration("config_file").perform(context)
-    package_config_dir = FindPackageShare("spacemouse_ros2").perform(context)
-    config_file = os.path.join(package_config_dir, "config", config_file_name)
-    configs = load_yaml(config_file)
+    config_file_pkg = FindPackageShare(LaunchConfiguration("config_pkg")).perform(context)
+    configs = load_yaml(os.path.join(config_file_pkg, "config", config_file_name))
     nodes = []
     for item_name, config in configs.items():
         nodes.append(
@@ -34,17 +33,20 @@ def generate_nodes(context):
                 ],
             )
         )
-
     return nodes
-
 
 def generate_launch_description():
     return LaunchDescription(
         [
             DeclareLaunchArgument(
                 "config_file",
-                default_value="example_duo_config.yaml",
+                default_value="example_config.yaml",
                 description="Name of the spacemouse configuration file to load",
+            ),
+            DeclareLaunchArgument(
+                "config_pkg",
+                default_value="spacemouse_ros2",
+                description="Name of the package containing the spacemouse configuration file",
             ),
             OpaqueFunction(function=generate_nodes),
         ]
