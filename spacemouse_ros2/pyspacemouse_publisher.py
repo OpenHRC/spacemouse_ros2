@@ -3,7 +3,7 @@ from rclpy.node import Node
 # from geometry_msgs.msg import Twist
 from sensor_msgs.msg import Joy
 from std_msgs.msg import Float32
-import pyspacemouse
+from .PySpaceMouse import pyspacemouse
 
 
 class SpaceMousePublisher(Node):
