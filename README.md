@@ -9,3 +9,5 @@ spacemouse_ros2 is forked from [spacemouse_publihser](https://github.com/frankar
 $ pip install pyspacemouse
 ```
 Legacy versions of PySpaceMouse supported on [legacy branch](https://github.com/OpenHRC/spacemouse_ros2/tree/legacy).
+
+If you do not want to do pip install, e.g., to avoid `error: externally-managed-environment`, please use [avoid-pip branch](https://github.com/OpenHRC/spacemouse_ros2/tree/avoid-pip).
